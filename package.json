@@ -1,0 +1,46 @@
+{
+  "name": "stylis-plugin-extra-scope",
+  "version": "0.0.0",
+  "description": "Stylis plugin which adds extra scope to each produced CSS rule.",
+  "main": "dist/stylis-plugin-extra-scope.js",
+  "module": "dist/stylis-plugin-extra-scope.es.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "pretest": "npm run build",
+    "test": "jest",
+    "precommit": "lint-staged",
+    "prebuild": "rimraf dist",
+    "build": "rollup -c",
+    "prepare": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andarist/stylis-plugin-extra-scope.git"
+  },
+  "keywords": [
+    "stylis",
+    "plugin"
+  ],
+  "author": "Mateusz Burzyński <mateuszburzynski@gmail.com> (https://github.com/Andarist)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Andarist/stylis-plugin-extra-scope/issues"
+  },
+  "homepage": "https://github.com/Andarist/stylis-plugin-extra-scope#readme",
+  "devDependencies": {
+    "@babel/core": "7.0.0-beta.42",
+    "@babel/preset-env": "7.0.0-beta.42",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^22.4.3",
+    "husky": "^0.14.3",
+    "jest": "^22.4.3",
+    "lint-staged": "^7.0.0",
+    "prettier": "^1.11.1",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^4.0.0-beta.3",
+    "stylis": "^3.5.0"
+  }
+}
