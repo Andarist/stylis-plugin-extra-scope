@@ -86,3 +86,81 @@ test('complex-ish extra scope', () => {
 
   expect(formatCss(actual)).toMatchSnapshot()
 })
+
+test('handles @at-rules correctly', () => {
+  const stylis = new Stylis()
+  stylis.use(extraScopePlugin('#my-scope'))
+
+  const actual = stylis(
+    '.some-class',
+    `
+    div, h1 {
+      span {
+        font-size: 14px;
+      }
+      background-color: rebeccapurple;
+    }
+
+    @media {
+      .other-class {
+        margin: 20px;
+      }
+    }
+
+    @keyframe {
+      0%: {
+        color: red;
+      }
+    }
+  `,
+  )
+
+  expect(formatCss(actual)).toMatchSnapshot()
+})
+
+test('handles @at-rules correctly', () => {
+  const stylis = new Stylis()
+  stylis.use(extraScopePlugin('#my-scope'))
+
+  const actual = stylis(
+    '.some-class',
+    `
+    div {
+      background-color: rebeccapurple;
+    }
+
+    @media {
+      .other-class {
+        margin: 20px;
+      }
+    }
+
+    @keyframe {
+      0%: {
+        color: red;
+      }
+    }
+  `,
+  )
+
+  expect(formatCss(actual)).toMatchSnapshot()
+})
+
+test('comma-separated selectors', () => {
+  const stylis = new Stylis()
+  stylis.use(extraScopePlugin('#my-scope'))
+
+  const actual = stylis(
+    '.some-class',
+    `
+    div, h1 {
+      span {
+        font-size: 14px;
+      }
+      background-color: rebeccapurple;
+    }
+  `,
+  )
+
+  expect(formatCss(actual)).toMatchSnapshot()
+})
