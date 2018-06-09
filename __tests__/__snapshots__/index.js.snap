@@ -1,11 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`complex-ish extra scope 1`] = `"#my-scope .other-class div .some-class{background-color:rebeccapurple;}"`;
+exports[`complex-ish extra scope 1`] = `
+"#my-scope .other-class div .some-class {
+  background-color: rebeccapurple;
+}
+"
+`;
 
-exports[`empty stylis scope 1`] = `"#my-scope div{background-color:rebeccapurple;}"`;
+exports[`empty stylis scope 1`] = `
+"#my-scope div {
+  background-color: rebeccapurple;
+}
+"
+`;
 
-exports[`nested input 1`] = `"#my-scope .some-class div{background-color:rebeccapurple;}#my-scope .some-class div span{font-size:14px;}#my-scope .some-class .other-class{margin:20px;}"`;
+exports[`nested input 1`] = `
+"#my-scope .some-class div {
+  background-color: rebeccapurple;
+}
+#my-scope .some-class div span {
+  font-size: 14px;
+}
+#my-scope .some-class .other-class {
+  margin: 20px;
+}
+"
+`;
 
-exports[`simple input 1`] = `"#my-scope .some-class{background-color:rebeccapurple;}"`;
+exports[`simple input 1`] = `
+"#my-scope .some-class {
+  background-color: rebeccapurple;
+}
+"
+`;
 
-exports[`trims padded extra scope 1`] = `"#my-scope .some-class{background-color:rebeccapurple;}"`;
+exports[`trims padded extra scope 1`] = `
+"#my-scope .some-class {
+  background-color: rebeccapurple;
+}
+"
+`;

@@ -1,7 +1,10 @@
 // TODO: would prefer using inline snapshots for those, but this feature is not yet released
 import Stylis from 'stylis'
+import prettier from 'prettier'
 
 import extraScopePlugin from '../src'
+
+const formatCss = css => prettier.format(css, { parser: 'css' })
 
 test('simple input', () => {
   const stylis = new Stylis()
@@ -14,7 +17,7 @@ test('simple input', () => {
   `,
   )
 
-  expect(actual).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchSnapshot()
 })
 
 test('empty stylis scope', () => {
@@ -30,7 +33,7 @@ test('empty stylis scope', () => {
   `,
   )
 
-  expect(actual).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchSnapshot()
 })
 
 test('nested input', () => {
@@ -53,7 +56,7 @@ test('nested input', () => {
   `,
   )
 
-  expect(actual).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchSnapshot()
 })
 
 test('trims padded extra scope', () => {
@@ -67,7 +70,7 @@ test('trims padded extra scope', () => {
   `,
   )
 
-  expect(actual).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchSnapshot()
 })
 
 test('complex-ish extra scope', () => {
@@ -81,5 +84,5 @@ test('complex-ish extra scope', () => {
   `,
   )
 
-  expect(actual).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchSnapshot()
 })
