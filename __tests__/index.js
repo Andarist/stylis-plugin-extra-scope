@@ -173,7 +173,7 @@ test('handles @at-rules correctly', () => {
   `)
 })
 
-test('handles @at-rules correctly', () => {
+test('handles @at-rules correctly 2', () => {
   const stylis = new Stylis()
   stylis.use(extraScopePlugin('#my-scope'))
 
@@ -248,4 +248,32 @@ test('comma-separated selectors', () => {
     }
     "
   `)
+})
+
+test('should add single extra scope correctly for same-level rules', () => {
+  const stylis = new Stylis()
+  stylis.use(extraScopePlugin('#my-scope'))
+
+  const actual = stylis(
+    '.some-class',
+    `
+    min-width: 12rem;
+
+    @media (min-width: 768px) {
+      margin: 0 20px 0 0;
+    }
+  `,
+  )
+
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+"#my-scope .some-class {
+  min-width: 12rem;
+}
+@media (min-width: 768px) {
+  #my-scope .some-class {
+    margin: 0 20px 0 0;
+  }
+}
+"
+`)
 })

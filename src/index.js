@@ -1,5 +1,6 @@
 export default function createExtraScopePlugin(extra) {
   const scope = `${extra.trim()} `
+  const seen = new WeakSet()
 
   const extraScopePlugin = (
     context,
@@ -11,7 +12,9 @@ export default function createExtraScopePlugin(extra) {
     length,
     type,
   ) => {
-    if (context !== 2 || type === 107) return
+    if (context !== 2 || type === 107 || seen.has(selectors)) return
+
+    seen.add(selectors)
 
     for (let i = 0; i < selectors.length; i++) {
       selectors[i] = `${scope}${selectors[i]}`
