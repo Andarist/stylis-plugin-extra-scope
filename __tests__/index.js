@@ -1,4 +1,3 @@
-// TODO: would prefer using inline snapshots for those, but this feature is not yet released
 import Stylis from 'stylis'
 import prettier from 'prettier'
 
@@ -17,7 +16,12 @@ test('simple input', () => {
   `,
   )
 
-  expect(formatCss(actual)).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class {
+      background-color: rebeccapurple;
+    }
+    "
+  `)
 })
 
 test('empty stylis scope', () => {
@@ -33,7 +37,12 @@ test('empty stylis scope', () => {
   `,
   )
 
-  expect(formatCss(actual)).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope div {
+      background-color: rebeccapurple;
+    }
+    "
+  `)
 })
 
 test('nested input', () => {
@@ -56,7 +65,18 @@ test('nested input', () => {
   `,
   )
 
-  expect(formatCss(actual)).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class div {
+      background-color: rebeccapurple;
+    }
+    #my-scope .some-class div span {
+      font-size: 14px;
+    }
+    #my-scope .some-class .other-class {
+      margin: 20px;
+    }
+    "
+  `)
 })
 
 test('trims padded extra scope', () => {
@@ -70,7 +90,12 @@ test('trims padded extra scope', () => {
   `,
   )
 
-  expect(formatCss(actual)).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class {
+      background-color: rebeccapurple;
+    }
+    "
+  `)
 })
 
 test('complex-ish extra scope', () => {
@@ -84,7 +109,12 @@ test('complex-ish extra scope', () => {
   `,
   )
 
-  expect(formatCss(actual)).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .other-class div .some-class {
+      background-color: rebeccapurple;
+    }
+    "
+  `)
 })
 
 test('handles @at-rules correctly', () => {
@@ -115,7 +145,32 @@ test('handles @at-rules correctly', () => {
   `,
   )
 
-  expect(formatCss(actual)).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class div,
+    #my-scope .some-class h1 {
+      background-color: rebeccapurple;
+    }
+    #my-scope .some-class div span,
+    #my-scope .some-class h1 span {
+      font-size: 14px;
+    }
+    @media {
+      #my-scope .some-class .other-class {
+        margin: 20px;
+      }
+    }
+    @-webkit-keyframe -some-class {
+      0%: {
+        color: red;
+      }
+    }
+    @keyframe -some-class {
+      0%: {
+        color: red;
+      }
+    }
+    "
+  `)
 })
 
 test('handles @at-rules correctly', () => {
@@ -143,7 +198,27 @@ test('handles @at-rules correctly', () => {
   `,
   )
 
-  expect(formatCss(actual)).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class div {
+      background-color: rebeccapurple;
+    }
+    @media {
+      #my-scope .some-class .other-class {
+        margin: 20px;
+      }
+    }
+    @-webkit-keyframe -some-class {
+      0%: {
+        color: red;
+      }
+    }
+    @keyframe -some-class {
+      0%: {
+        color: red;
+      }
+    }
+    "
+  `)
 })
 
 test('comma-separated selectors', () => {
@@ -162,5 +237,15 @@ test('comma-separated selectors', () => {
   `,
   )
 
-  expect(formatCss(actual)).toMatchSnapshot()
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class div,
+    #my-scope .some-class h1 {
+      background-color: rebeccapurple;
+    }
+    #my-scope .some-class div span,
+    #my-scope .some-class h1 span {
+      font-size: 14px;
+    }
+    "
+  `)
 })
