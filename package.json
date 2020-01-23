@@ -9,8 +9,7 @@
   ],
   "scripts": {
     "pretest": "npm run build",
-    "test": "jest",
-    "precommit": "lint-staged",
+    "test": "jest --env=node",
     "prebuild": "rimraf dist",
     "build": "rollup -c",
     "prepare": "npm test"
@@ -30,17 +29,16 @@
   },
   "homepage": "https://github.com/Andarist/stylis-plugin-extra-scope#readme",
   "devDependencies": {
-    "@babel/core": "7.0.0-beta.42",
-    "@babel/preset-env": "7.0.0-beta.42",
-    "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^22.4.3",
-    "husky": "^0.14.3",
-    "jest": "^22.4.3",
-    "lint-staged": "^7.0.0",
-    "prettier": "^1.11.1",
-    "rimraf": "^2.6.2",
-    "rollup": "^0.57.1",
-    "rollup-plugin-babel": "^4.0.0-beta.3",
-    "stylis": "^3.5.0"
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "babel-jest": "^25.1.0",
+    "husky": "^4.2.0",
+    "jest": "^25.1.0",
+    "lint-staged": "^10.0.2",
+    "prettier": "^1.19.1",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.29.1",
+    "rollup-plugin-babel": "^4.3.3",
+    "stylis": "^3.5.4"
   }
 }
