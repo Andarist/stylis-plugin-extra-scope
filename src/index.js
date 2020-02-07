@@ -21,10 +21,7 @@ export default function createExtraScopePlugin(extra) {
     }
   }
 
-  // stable identifier that will not be dropped by minification unless the whole
-  // module
-  // is unused
-  /*#__PURE__*/
+  // stable identifier that will not be dropped by minification
   Object.defineProperty(extraScopePlugin, 'name', { value: 'extraScopePlugin' })
 
   return extraScopePlugin
