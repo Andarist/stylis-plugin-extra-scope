@@ -1,6 +1,6 @@
 {
   "name": "stylis-plugin-extra-scope",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Stylis plugin which adds extra scope to each produced CSS rule.",
   "main": "dist/stylis-plugin-extra-scope.js",
   "module": "dist/stylis-plugin-extra-scope.es.js",
