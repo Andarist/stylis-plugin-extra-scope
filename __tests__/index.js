@@ -277,3 +277,23 @@ test('should add single extra scope correctly for same-level rules', () => {
 "
 `)
 })
+
+test('multiple extra scopes', () => {
+  const stylis = new Stylis()
+  stylis.use(extraScopePlugin('#my-scope', '#my-second-scope'))
+
+  const actual = stylis(
+    '.some-class',
+    `
+    background-color: rebeccapurple;
+  `,
+  )
+
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class,
+    #my-second-scope .some-class {
+      background-color: rebeccapurple;
+    }
+    "
+  `)
+})
