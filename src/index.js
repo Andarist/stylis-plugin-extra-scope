@@ -12,7 +12,13 @@ export default function createExtraScopePlugin(...extra) {
     length,
     type,
   ) => {
-    if (context !== 2 || type === 107 || seen.has(selectors)) return
+    if (
+      context !== 2 ||
+      type === 107 ||
+      seen.has(selectors) ||
+      seen.has(parents)
+    )
+      return
 
     seen.add(selectors)
 
