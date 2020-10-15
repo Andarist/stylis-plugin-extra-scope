@@ -2,6 +2,8 @@
 
 [Stylis](https://github.com/thysultan/stylis.js) plugin which adds extra scope to each produced CSS rule.
 
+> ⚠️ This plugin is currently compatible with Stylis 3.
+
 ## Example
 
 ```js
@@ -35,6 +37,7 @@ console.log(rules) // "#my-scope .some-class div{background-color:rebeccapurple;
 This plugin depends on the [`WeakSet`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet) collection type for performance reasons. If you support older environments that may not provide this natively (e.g. IE11), consider including a global polyfill in your application, such as [core-js](https://github.com/zloirock/core-js).
 
 For example, a polyfill may be added to the above example's imports like so:
+
 ```js
 import 'core-js/features/weak-set'
 import Stylis from 'stylis'
