@@ -297,3 +297,38 @@ test('multiple extra scopes', () => {
     "
   `)
 })
+
+test('should add single extra scope correctly for pseudo selectors', () => {
+  const stylis = new Stylis()
+  stylis.use(extraScopePlugin('#my-scope'))
+
+  const actual = stylis(
+    '.some-class',
+    `
+    min-width: 12rem;
+
+    @media (min-width: 768px) {
+      margin: 0 20px 0 0;
+    }
+    
+    :hover {
+      background-color: rebeccapurple;
+    }
+  `,
+  )
+
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+"#my-scope .some-class {
+  min-width: 12rem;
+}
+@media (min-width: 768px) {
+  #my-scope .some-class {
+    margin: 0 20px 0 0;
+  }
+}
+#my-scope .some-class:hover {
+  background-color: rebeccapurple;
+}
+"
+`)
+})
