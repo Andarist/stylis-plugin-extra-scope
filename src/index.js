@@ -11,7 +11,7 @@ export default function createExtraScopePlugin(...scopes) {
     }
 
     element.props = element.props.flatMap(prop =>
-      scopes.map(scope => `${scope} ${prop}`),
+      scopes.map(scope => scope + prop),
     )
   }
 }
