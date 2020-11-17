@@ -1,25 +1,23 @@
-export default function createExtraScopePlugin(...extra) {
-  const scopes = extra.map(scope => `${scope.trim()} `)
-  const seen = new WeakSet()
+export default function createExtraScopePlugin(...scopes) {
+  scopes = scopes.map(scope => `${scope.trim()} `)
 
-  const extraScopePlugin = (
-    context,
-    content,
-    selectors,
-    parents,
-    line,
-    column,
-    length,
-    type,
-  ) => {
-    if (context !== 2 || type === 107 || seen.has(selectors)) return
+  return element => {
+    if (element.type !== 'rule') {
+      return
+    }
 
-    seen.add(selectors)
+    if (element.root?.type === '@keyframes') {
+      return
+    }
 
-    for (let i = 0; i < selectors.length; i++) {
-      selectors[i] = scopes.map(scope => `${scope}${selectors[i]}`).join(',')
+    if (
+      !element.parent ||
+      (element.props.length === 1 && element.value.charCodeAt(0) !== 58) ||
+      !element.length
+    ) {
+      element.props = element.props.flatMap(prop =>
+        scopes.map(scope => scope + prop),
+      )
     }
   }
-
-  return extraScopePlugin
 }
