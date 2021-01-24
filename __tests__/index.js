@@ -266,16 +266,16 @@ test('should add single extra scope correctly for same-level rules', () => {
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
-"#my-scope .some-class {
-  min-width: 12rem;
-}
-@media (min-width: 768px) {
-  #my-scope .some-class {
-    margin: 0 20px 0 0;
-  }
-}
-"
-`)
+    "#my-scope .some-class {
+      min-width: 12rem;
+    }
+    @media (min-width: 768px) {
+      #my-scope .some-class {
+        margin: 0 20px 0 0;
+      }
+    }
+    "
+  `)
 })
 
 test('multiple extra scopes', () => {
@@ -286,6 +286,10 @@ test('multiple extra scopes', () => {
     '.some-class',
     `
     background-color: rebeccapurple;
+
+    div {
+      color: hotpink;
+    }
   `,
   )
 
@@ -294,11 +298,15 @@ test('multiple extra scopes', () => {
     #my-second-scope .some-class {
       background-color: rebeccapurple;
     }
+    #my-scope .some-class div,
+    #my-second-scope .some-class div {
+      color: hotpink;
+    }
     "
   `)
 })
 
-test('should add single extra scope correctly for pseudo selectors', () => {
+test('should add single extra scope correctly for a rule declared after at rule', () => {
   const stylis = new Stylis()
   stylis.use(extraScopePlugin('#my-scope'))
 
@@ -310,25 +318,32 @@ test('should add single extra scope correctly for pseudo selectors', () => {
     @media (min-width: 768px) {
       margin: 0 20px 0 0;
     }
-    
-    :hover {
+
+    div {
       background-color: rebeccapurple;
+
+      &:focus {
+        border: 1px solid blue;
+      }
     }
   `,
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
-"#my-scope .some-class {
-  min-width: 12rem;
-}
-@media (min-width: 768px) {
-  #my-scope .some-class {
-    margin: 0 20px 0 0;
-  }
-}
-#my-scope .some-class:hover {
-  background-color: rebeccapurple;
-}
-"
-`)
+    "#my-scope .some-class {
+      min-width: 12rem;
+    }
+    @media (min-width: 768px) {
+      #my-scope .some-class {
+        margin: 0 20px 0 0;
+      }
+    }
+    #my-scope .some-class div {
+      background-color: rebeccapurple;
+    }
+    #my-scope .some-class div:focus {
+      border: 1px solid blue;
+    }
+    "
+  `)
 })

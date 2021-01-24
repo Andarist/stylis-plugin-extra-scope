@@ -1,6 +1,5 @@
 export default function createExtraScopePlugin(...extra) {
-  const scopes = extra.map(scope => `${scope.trim()} `)
-  const seen = new WeakSet()
+  const scopes = extra.map(scope => scope.trim())
 
   const extraScopePlugin = (
     context,
@@ -12,18 +11,15 @@ export default function createExtraScopePlugin(...extra) {
     length,
     type,
   ) => {
-    if (
-      context !== 2 ||
-      type === 107 ||
-      seen.has(selectors) ||
-      seen.has(parents)
-    )
+    if (context !== -1) {
       return
+    }
 
-    seen.add(selectors)
+    const selector = selectors[0]
+    selectors[0] = `${scopes[0]} ${selector}`
 
-    for (let i = 0; i < selectors.length; i++) {
-      selectors[i] = scopes.map(scope => `${scope}${selectors[i]}`).join(',')
+    for (let i = 1; i < scopes.length; i++) {
+      selectors.push(`${scopes[i]} ${selector}`)
     }
   }
 
