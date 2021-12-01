@@ -1,27 +1,23 @@
 export default function createExtraScopePlugin(...extra) {
-  const scopes = extra.map(scope => scope.trim())
+  const scopes = extra.map((scope) => `${scope.trim()} `)
 
-  const extraScopePlugin = (
-    context,
-    content,
-    selectors,
-    parents,
-    line,
-    column,
-    length,
-    type,
-  ) => {
-    if (context !== -1) {
+  return (element) => {
+    if (element.type !== 'rule') {
       return
     }
 
-    const selector = selectors[0]
-    selectors[0] = `${scopes[0]} ${selector}`
+    if (element.root?.type === '@keyframes') {
+      return
+    }
 
-    for (let i = 1; i < scopes.length; i++) {
-      selectors.push(`${scopes[i]} ${selector}`)
+    if (
+      !element.parent ||
+      (element.props.length === 1 && element.value.charCodeAt(0) !== 58) ||
+      !element.length
+    ) {
+      element.props = element.props
+        .map((prop) => scopes.map((scope) => scope + prop))
+        .reduce((scopesArray, scope) => scopesArray.concat(scope), [])
     }
   }
-
-  return extraScopePlugin
 }

@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StylisExtraScope with Emotion should add single extra scope correctly for a rule declared after at rule 1`] = `
+<html>
+  <head>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-t26pys{color:blue;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      @media{#extraScopeContainer.extraScope .extra-scope-t26pys{font-size:1rem;}}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div
+        class="extra-scope-t26pys"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`StylisExtraScope with Emotion should handle @at-rules correctly 1`] = `
+<html>
+  <head>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-2zs2u8{color:blue;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      @media{#extraScopeContainer.extraScope .extra-scope-2zs2u8{font-size:1rem;}}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      @media (min-width: 768px){#extraScopeContainer.extraScope .extra-scope-2zs2u8{font-size:2rem;}}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      @keyframes{0%{color:red;}}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div
+        class="extra-scope-2zs2u8"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`StylisExtraScope with Emotion should handle comma-separated selectors 1`] = `
+<html>
+  <head>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-11ysuls{color:blue;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-11ysuls div,#extraScopeContainer.extraScope .extra-scope-11ysuls h1{font-size:2rem;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div
+        class="extra-scope-11ysuls"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`StylisExtraScope with Emotion should handle nested input 1`] = `
+<html>
+  <head>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-tokvmb{color:red;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-14ksm7b{color:blue;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div
+        class="extra-scope-tokvmb"
+      >
+        <div
+          class="extra-scope-14ksm7b"
+        />
+      </div>
+    </div>
+  </body>
+</html>
+`;
+
+exports[`StylisExtraScope with Emotion should handle parent selectors 1`] = `
+<html>
+  <head>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-tokvmb{color:red;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-rngag0{}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-rngag0.extra-scope-rngag0{color:blue;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div
+        class="extra-scope-tokvmb"
+      >
+        <div
+          class="extra-scope-rngag0"
+        />
+      </div>
+    </div>
+  </body>
+</html>
+`;
+
+exports[`StylisExtraScope with Emotion should handle sibling selectors 1`] = `
+<html>
+  <head>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg{}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg div~div{}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg div~div:focus{color:blue;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg~div{font-size:1rem;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg div+div{margin:10px;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg+div{}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg+div:after{color:red;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div
+        class="extra-scope-1jdbxgg"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`StylisExtraScope with Emotion should handle simple input 1`] = `
+<html>
+  <head>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-9c7r58{font-size:10px;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div
+        class="extra-scope-9c7r58"
+      />
+    </div>
+  </body>
+</html>
+`;
