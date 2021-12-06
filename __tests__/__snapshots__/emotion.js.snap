@@ -70,6 +70,69 @@ exports[`StylisExtraScope with Emotion should handle @at-rules correctly 1`] = `
 </html>
 `;
 
+exports[`StylisExtraScope with Emotion should handle child selectors 1`] = `
+<html>
+  <head>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1tlzw6p{}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1tlzw6p &gt;.some-child-class{}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1tlzw6p &gt;.some-child-class:focus{color:blue;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1tlzw6p&gt;.some-child-class{font-size:1rem;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-1tlzw6p div&gt;.some-other-class{margin:10px;}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .some-parent-class&gt;.extra-scope-1tlzw6p{}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .some-parent-class&gt;.extra-scope-1tlzw6p:after{color:red;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div
+        class="extra-scope-1tlzw6p"
+      />
+    </div>
+  </body>
+</html>
+`;
+
 exports[`StylisExtraScope with Emotion should handle comma-separated selectors 1`] = `
 <html>
   <head>

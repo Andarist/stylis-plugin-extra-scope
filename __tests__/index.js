@@ -321,6 +321,38 @@ test('should handle sibling selectors', () => {
   `)
 })
 
+test('should handle child selectors', () => {
+  const actual = serialize(
+    compile(
+      `.some-class {
+        & > .some-child-class {
+          color: green;
+        }
+        .some-parent-class > & {
+          color: red;
+        }
+        .class-one > .class-two {
+          color: blue;
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
+  )
+
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class > .some-child-class {
+      color: green;
+    }
+    #my-scope .some-parent-class > .some-class {
+      color: red;
+    }
+    #my-scope .some-class .class-one > .class-two {
+      color: blue;
+    }
+    "
+  `)
+})
+
 test('should add single extra scope correctly for a rule declared after at rule', () => {
   const actual = serialize(
     compile(

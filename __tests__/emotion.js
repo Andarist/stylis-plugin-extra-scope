@@ -118,6 +118,23 @@ describe('StylisExtraScope with Emotion', () => {
     expect(document.documentElement).toMatchSnapshot()
   })
 
+  it('should handle child selectors', () => {
+    const Comp1 = styled.div({
+      '> .some-child-class': { ':focus': { color: 'blue' } },
+      '& > .some-child-class': { fontSize: '1rem' },
+      'div > .some-other-class': { margin: '10px' },
+      '.some-parent-class > &': { ':after': { color: 'red' } },
+    })
+
+    render(
+      <TestCacheProvider>
+        <Comp1 />
+      </TestCacheProvider>,
+    )
+
+    expect(document.documentElement).toMatchSnapshot()
+  })
+
   it('should add single extra scope correctly for a rule declared after at rule', () => {
     const Comp1 = styled.div({
       '@media': { fontSize: '1rem' },
