@@ -161,6 +161,34 @@ exports[`StylisExtraScope with Emotion should handle comma-separated selectors 1
 </html>
 `;
 
+exports[`StylisExtraScope with Emotion should handle complicated child selectors 1`] = `
+<html>
+  <head>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .extra-scope-r30tj0{}
+    </style>
+    <style
+      data-emotion="extra-scope"
+      data-s=""
+    >
+      
+      #extraScopeContainer.extraScope .class-one:focus~.extra-scope-r30tj0,#extraScopeContainer.extraScope class-two:focus&gt;.extra-scope-r30tj0{outline-color:red;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <div
+        class="extra-scope-r30tj0"
+      />
+    </div>
+  </body>
+</html>
+`;
+
 exports[`StylisExtraScope with Emotion should handle nested input 1`] = `
 <html>
   <head>

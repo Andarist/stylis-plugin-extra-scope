@@ -353,6 +353,27 @@ test('should handle child selectors', () => {
   `)
 })
 
+test('should handle complicated child selectors', () => {
+  const actual = serialize(
+    compile(
+      `.some-class {
+        .class-one:focus ~ &, .class-two:focus > & {
+          outlineColor: red;
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
+  )
+
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .class-one:focus ~ .some-class,
+    #my-scope .class-two:focus > .some-class {
+      outlinecolor: red;
+    }
+    "
+  `)
+})
+
 test('should add single extra scope correctly for a rule declared after at rule', () => {
   const actual = serialize(
     compile(
