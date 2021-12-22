@@ -6,8 +6,18 @@ import createCache from '@emotion/cache'
 import { CacheProvider } from '@emotion/react'
 import styled from '@emotion/styled'
 import { render } from '@testing-library/react'
+import prettier from 'prettier'
 import React, { useState } from 'react'
 import stylisExtraScope from '..'
+
+const formatCss = (css) => prettier.format(css, { parser: 'css' })
+const getAllEmotionStyles = () =>
+  formatCss(
+    [].slice
+      .call(document.querySelectorAll('[data-emotion]'))
+      .map((style) => style.textContent)
+      .join('\n'),
+  )
 
 const TestCacheProvider = ({ children }) => {
   const [emotionCache] = useState(() => {
@@ -35,7 +45,12 @@ describe('StylisExtraScope with Emotion', () => {
       </TestCacheProvider>,
     )
 
-    expect(document.documentElement).toMatchSnapshot()
+    expect(getAllEmotionStyles()).toMatchInlineSnapshot(`
+      "#extraScopeContainer.extraScope .extra-scope-9c7r58 {
+        font-size: 10px;
+      }
+      "
+    `)
   })
 
   it('should handle nested input', () => {
@@ -50,7 +65,15 @@ describe('StylisExtraScope with Emotion', () => {
       </TestCacheProvider>,
     )
 
-    expect(document.documentElement).toMatchSnapshot()
+    expect(getAllEmotionStyles()).toMatchInlineSnapshot(`
+      "#extraScopeContainer.extraScope .extra-scope-tokvmb {
+        color: red;
+      }
+      #extraScopeContainer.extraScope .extra-scope-14ksm7b {
+        color: blue;
+      }
+      "
+    `)
   })
 
   it('should handle @at-rules correctly', () => {
@@ -71,7 +94,27 @@ describe('StylisExtraScope with Emotion', () => {
       </TestCacheProvider>,
     )
 
-    expect(document.documentElement).toMatchSnapshot()
+    expect(getAllEmotionStyles()).toMatchInlineSnapshot(`
+      "#extraScopeContainer.extraScope .extra-scope-2zs2u8 {
+        color: blue;
+      }
+      @media {
+        #extraScopeContainer.extraScope .extra-scope-2zs2u8 {
+          font-size: 1rem;
+        }
+      }
+      @media (min-width: 768px) {
+        #extraScopeContainer.extraScope .extra-scope-2zs2u8 {
+          font-size: 2rem;
+        }
+      }
+      @keyframes {
+        0% {
+          color: red;
+        }
+      }
+      "
+    `)
   })
 
   it('should handle comma-separated selectors', () => {
@@ -83,7 +126,16 @@ describe('StylisExtraScope with Emotion', () => {
       </TestCacheProvider>,
     )
 
-    expect(document.documentElement).toMatchSnapshot()
+    expect(getAllEmotionStyles()).toMatchInlineSnapshot(`
+      "#extraScopeContainer.extraScope .extra-scope-11ysuls {
+        color: blue;
+      }
+      #extraScopeContainer.extraScope .extra-scope-11ysuls div,
+      #extraScopeContainer.extraScope .extra-scope-11ysuls h1 {
+        font-size: 2rem;
+      }
+      "
+    `)
   })
 
   it('should handle parent selectors', () => {
@@ -98,7 +150,17 @@ describe('StylisExtraScope with Emotion', () => {
       </TestCacheProvider>,
     )
 
-    expect(document.documentElement).toMatchSnapshot()
+    expect(getAllEmotionStyles()).toMatchInlineSnapshot(`
+      "#extraScopeContainer.extraScope .extra-scope-tokvmb {
+        color: red;
+      }
+      #extraScopeContainer.extraScope .extra-scope-rngag0 {
+      }
+      #extraScopeContainer.extraScope .extra-scope-rngag0.extra-scope-rngag0 {
+        color: blue;
+      }
+      "
+    `)
   })
 
   it('should handle sibling selectors', () => {
@@ -115,7 +177,27 @@ describe('StylisExtraScope with Emotion', () => {
       </TestCacheProvider>,
     )
 
-    expect(document.documentElement).toMatchSnapshot()
+    expect(getAllEmotionStyles()).toMatchInlineSnapshot(`
+      "#extraScopeContainer.extraScope .extra-scope-1jdbxgg {
+      }
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg div ~ div {
+      }
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg div ~ div:focus {
+        color: blue;
+      }
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg ~ div {
+        font-size: 1rem;
+      }
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg div + div {
+        margin: 10px;
+      }
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg + div {
+      }
+      #extraScopeContainer.extraScope .extra-scope-1jdbxgg + div:after {
+        color: red;
+      }
+      "
+    `)
   })
 
   it('should handle child selectors', () => {
@@ -132,7 +214,29 @@ describe('StylisExtraScope with Emotion', () => {
       </TestCacheProvider>,
     )
 
-    expect(document.documentElement).toMatchSnapshot()
+    expect(getAllEmotionStyles()).toMatchInlineSnapshot(`
+      "#extraScopeContainer.extraScope .extra-scope-1tlzw6p {
+      }
+      #extraScopeContainer.extraScope .extra-scope-1tlzw6p > .some-child-class {
+      }
+      #extraScopeContainer.extraScope .extra-scope-1tlzw6p > .some-child-class:focus {
+        color: blue;
+      }
+      #extraScopeContainer.extraScope .extra-scope-1tlzw6p > .some-child-class {
+        font-size: 1rem;
+      }
+      #extraScopeContainer.extraScope .extra-scope-1tlzw6p div > .some-other-class {
+        margin: 10px;
+      }
+      #extraScopeContainer.extraScope .some-parent-class > .extra-scope-1tlzw6p {
+      }
+      #extraScopeContainer.extraScope
+        .some-parent-class
+        > .extra-scope-1tlzw6p:after {
+        color: red;
+      }
+      "
+    `)
   })
 
   it('should handle complicated child selectors', () => {
@@ -146,7 +250,15 @@ describe('StylisExtraScope with Emotion', () => {
       </TestCacheProvider>,
     )
 
-    expect(document.documentElement).toMatchSnapshot()
+    expect(getAllEmotionStyles()).toMatchInlineSnapshot(`
+      "#extraScopeContainer.extraScope .extra-scope-r30tj0 {
+      }
+      #extraScopeContainer.extraScope .class-one:focus ~ .extra-scope-r30tj0,
+      #extraScopeContainer.extraScope .class-two:focus > .extra-scope-r30tj0 {
+        outline-color: red;
+      }
+      "
+    `)
   })
 
   it('should add single extra scope correctly for a rule declared after at rule', () => {
@@ -161,6 +273,16 @@ describe('StylisExtraScope with Emotion', () => {
       </TestCacheProvider>,
     )
 
-    expect(document.documentElement).toMatchSnapshot()
+    expect(getAllEmotionStyles()).toMatchInlineSnapshot(`
+      "#extraScopeContainer.extraScope .extra-scope-t26pys {
+        color: blue;
+      }
+      @media {
+        #extraScopeContainer.extraScope .extra-scope-t26pys {
+          font-size: 1rem;
+        }
+      }
+      "
+    `)
   })
 })
