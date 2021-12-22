@@ -10,14 +10,8 @@ export default function createExtraScopePlugin(...extra) {
       return
     }
 
-    if (
-      !element.parent ||
-      (element.props.length === 1 && element.value.charCodeAt(0) !== 58) ||
-      !element.length
-    ) {
-      element.props = element.props
-        .map((prop) => scopes.map((scope) => scope + prop))
-        .reduce((scopesArray, scope) => scopesArray.concat(scope), [])
-    }
+    element.props = element.props
+      .map((prop) => scopes.map((scope) => scope + prop))
+      .reduce((scopesArray, scope) => scopesArray.concat(scope), [])
   }
 }
