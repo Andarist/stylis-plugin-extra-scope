@@ -1,19 +1,18 @@
-import Stylis from 'stylis'
 import prettier from 'prettier'
+import { compile, serialize, middleware, stringify } from 'stylis'
 
 import extraScopePlugin from '../src'
 
-const formatCss = css => prettier.format(css, { parser: 'css' })
+const formatCss = (css) => prettier.format(css, { parser: 'css' })
 
 test('simple input', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('#my-scope'))
-
-  const actual = stylis(
-    '.some-class',
-    `
-    background-color: rebeccapurple;
-  `,
+  const actual = serialize(
+    compile(
+      `.some-class {
+        background-color: rebeccapurple;
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
@@ -24,45 +23,22 @@ test('simple input', () => {
   `)
 })
 
-test('empty stylis scope', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('#my-scope'))
-
-  const actual = stylis(
-    '',
-    `
-    div {
-      background-color: rebeccapurple;
-    }
-  `,
-  )
-
-  expect(formatCss(actual)).toMatchInlineSnapshot(`
-    "#my-scope div {
-      background-color: rebeccapurple;
-    }
-    "
-  `)
-})
-
 test('nested input', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('#my-scope'))
-
-  const actual = stylis(
-    '.some-class',
-    `
-    div {
-      span {
-        font-size: 14px;
-      }
-      background-color: rebeccapurple;
-    }
-
-    .other-class {
-      margin: 20px;
-    }
-  `,
+  const actual = serialize(
+    compile(
+      `.some-class {
+        div {
+          span {
+            font-size: 14px;
+          }
+          background-color: rebeccapurple;
+        }
+        .other-class {
+          margin: 20px;
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
@@ -80,14 +56,13 @@ test('nested input', () => {
 })
 
 test('trims padded extra scope', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('  #my-scope  '))
-
-  const actual = stylis(
-    '.some-class',
-    `
-    background-color: rebeccapurple;
-  `,
+  const actual = serialize(
+    compile(
+      `.some-class {
+        background-color: rebeccapurple;
+      }`,
+    ),
+    middleware([extraScopePlugin('  #my-scope  '), stringify]),
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
@@ -99,14 +74,13 @@ test('trims padded extra scope', () => {
 })
 
 test('complex-ish extra scope', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('#my-scope .other-class div'))
-
-  const actual = stylis(
-    '.some-class',
-    `
-    background-color: rebeccapurple;
-  `,
+  const actual = serialize(
+    compile(
+      `.some-class {
+        background-color: rebeccapurple;
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope .other-class div'), stringify]),
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
@@ -118,31 +92,28 @@ test('complex-ish extra scope', () => {
 })
 
 test('handles @at-rules correctly', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('#my-scope'))
-
-  const actual = stylis(
-    '.some-class',
-    `
-    div, h1 {
-      span {
-        font-size: 14px;
-      }
-      background-color: rebeccapurple;
-    }
-
-    @media {
-      .other-class {
-        margin: 20px;
-      }
-    }
-
-    @keyframe {
-      0%: {
-        color: red;
-      }
-    }
-  `,
+  const actual = serialize(
+    compile(
+      `.some-class {
+        div, h1 {
+          span {
+            font-size: 14px;
+          }
+          background-color: rebeccapurple;
+        }
+        @media {
+          .other-class {
+            margin: 20px;
+          }
+        }
+        @keyframes {
+          0%: {
+            color: red;
+          }
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
@@ -159,12 +130,7 @@ test('handles @at-rules correctly', () => {
         margin: 20px;
       }
     }
-    @-webkit-keyframe -some-class {
-      0%: {
-        color: red;
-      }
-    }
-    @keyframe -some-class {
+    @keyframes {
       0%: {
         color: red;
       }
@@ -174,28 +140,25 @@ test('handles @at-rules correctly', () => {
 })
 
 test('handles @at-rules correctly 2', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('#my-scope'))
-
-  const actual = stylis(
-    '.some-class',
-    `
-    div {
-      background-color: rebeccapurple;
-    }
-
-    @media {
-      .other-class {
-        margin: 20px;
-      }
-    }
-
-    @keyframe {
-      0%: {
-        color: red;
-      }
-    }
-  `,
+  const actual = serialize(
+    compile(
+      `.some-class {
+        div {
+          background-color: rebeccapurple;
+        }
+        @media {
+          .other-class {
+            margin: 20px;
+          }
+        }
+        @keyframes {
+          0%: {
+            color: red;
+          }
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
@@ -207,12 +170,7 @@ test('handles @at-rules correctly 2', () => {
         margin: 20px;
       }
     }
-    @-webkit-keyframe -some-class {
-      0%: {
-        color: red;
-      }
-    }
-    @keyframe -some-class {
+    @keyframes {
       0%: {
         color: red;
       }
@@ -222,19 +180,18 @@ test('handles @at-rules correctly 2', () => {
 })
 
 test('comma-separated selectors', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('#my-scope'))
-
-  const actual = stylis(
-    '.some-class',
-    `
-    div, h1 {
-      span {
-        font-size: 14px;
-      }
-      background-color: rebeccapurple;
-    }
-  `,
+  const actual = serialize(
+    compile(
+      `.some-class {
+        div, h1 {
+          span {
+            font-size: 14px;
+          }
+          background-color: rebeccapurple;
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
@@ -251,18 +208,16 @@ test('comma-separated selectors', () => {
 })
 
 test('should add single extra scope correctly for same-level rules', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('#my-scope'))
-
-  const actual = stylis(
-    '.some-class',
-    `
-    min-width: 12rem;
-
-    @media (min-width: 768px) {
-      margin: 0 20px 0 0;
-    }
-  `,
+  const actual = serialize(
+    compile(
+      `.some-class {
+        min-width: 12rem;
+        @media (min-width: 768px) {
+          margin: 0 20px 0 0;
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
@@ -279,18 +234,16 @@ test('should add single extra scope correctly for same-level rules', () => {
 })
 
 test('multiple extra scopes', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('#my-scope', '#my-second-scope'))
-
-  const actual = stylis(
-    '.some-class',
-    `
-    background-color: rebeccapurple;
-
-    div {
-      color: hotpink;
-    }
-  `,
+  const actual = serialize(
+    compile(
+      `.some-class {
+        background-color: rebeccapurple;
+        div {
+          color: hotpink;
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope', '#my-second-scope'), stringify]),
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
@@ -306,27 +259,140 @@ test('multiple extra scopes', () => {
   `)
 })
 
-test('should add single extra scope correctly for a rule declared after at rule', () => {
-  const stylis = new Stylis()
-  stylis.use(extraScopePlugin('#my-scope'))
+test('should handle parent selectors', () => {
+  const actual = serialize(
+    compile(
+      `.some-class {
+        background-color: rebeccapurple;
+        div {
+          color: hotpink;
+        }
+        &.some-other-class {
+          margin: 8px;
+        }
+        & .some-third-class {
+          padding: 1rem;
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
+  )
 
-  const actual = stylis(
-    '.some-class',
-    `
-    min-width: 12rem;
-
-    @media (min-width: 768px) {
-      margin: 0 20px 0 0;
-    }
-
-    div {
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class {
       background-color: rebeccapurple;
-
-      &:focus {
-        border: 1px solid blue;
-      }
     }
-  `,
+    #my-scope .some-class div {
+      color: hotpink;
+    }
+    #my-scope .some-class.some-other-class {
+      margin: 8px;
+    }
+    #my-scope .some-class .some-third-class {
+      padding: 1rem;
+    }
+    "
+  `)
+})
+
+test('should handle sibling selectors', () => {
+  const actual = serialize(
+    compile(
+      `.some-class {
+        p ~ .some-sibling-class {
+          color: green;
+        }
+        & + .some-adjacent-class {
+          color: red;
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
+  )
+
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class p ~ .some-sibling-class {
+      color: green;
+    }
+    #my-scope .some-class + .some-adjacent-class {
+      color: red;
+    }
+    "
+  `)
+})
+
+test('should handle child selectors', () => {
+  const actual = serialize(
+    compile(
+      `.some-class {
+        & > .some-child-class {
+          color: green;
+        }
+        .some-parent-class > & {
+          color: red;
+        }
+        .class-one > .class-two {
+          color: blue;
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
+  )
+
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .some-class > .some-child-class {
+      color: green;
+    }
+    #my-scope .some-parent-class > .some-class {
+      color: red;
+    }
+    #my-scope .some-class .class-one > .class-two {
+      color: blue;
+    }
+    "
+  `)
+})
+
+test('should handle complicated child selectors', () => {
+  const actual = serialize(
+    compile(
+      `.some-class {
+        .class-one:focus ~ &, .class-two:focus > & {
+          outlineColor: red;
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
+  )
+
+  expect(formatCss(actual)).toMatchInlineSnapshot(`
+    "#my-scope .class-one:focus ~ .some-class,
+    #my-scope .class-two:focus > .some-class {
+      outlinecolor: red;
+    }
+    "
+  `)
+})
+
+test('should add single extra scope correctly for a rule declared after at rule', () => {
+  const actual = serialize(
+    compile(
+      `.some-class {
+        min-width: 12rem;
+        @media (min-width: 768px) {
+          margin: 0 20px 0 0;
+        }
+    
+        div {
+          background-color: rebeccapurple;
+    
+          &:focus {
+            border: 1px solid blue;
+          }
+        }
+      }`,
+    ),
+    middleware([extraScopePlugin('#my-scope'), stringify]),
   )
 
   expect(formatCss(actual)).toMatchInlineSnapshot(`
